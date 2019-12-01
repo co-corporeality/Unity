@@ -43,11 +43,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e369fa755d219b4da0c8b783d0c27c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noise: 0
+  noise: 0.2
   radius: 10
   strength: 1
+  overrideOSC: 0
   realStrength: 0
   oscStrength: 0
   id: 0
   rootId: 0
-  overrideOSC: 0
+  emotion: 0

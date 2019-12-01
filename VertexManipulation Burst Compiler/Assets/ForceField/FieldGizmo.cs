@@ -4,33 +4,47 @@ using UnityEngine;
 
 public class FieldGizmo : MonoBehaviour
 {
-    [Header("Basic Settings")]
+    GizmoOSC gizmoOSC;
+    [Header("General Settings")]
     [Range(0.0f, 1.0f)]
     public float noise; 
     public float radius = 1.0f;
     public float strength = 1.0f;
+    public bool overrideOSC;
+
     [HideInInspector]
     public float realStrength;  // user multiplier * osc data
     [HideInInspector]
-    public  float oscStrength;
+    public  float poseStrength;
+    [Header("Pose Settings")]
     [Range(0, 17)]
     public int id = 0;
-
-    [Header("Advanced Settings")]
     [Range(0, 17)]
     public int rootId = 0;
-    public bool overrideOSC;
     
+
+    [Header("Face Settings")]
+    [Range(0,4)]
+    public int emotionId;
+    [HideInInspector]
+    public float emotionStrength;
     void Start() {
-        
+        gizmoOSC = GameObject.Find("GizmoOSC").GetComponent<GizmoOSC>();
     }
 
     void Update() {
         if(overrideOSC) {
             realStrength = strength;
         } else {
-             realStrength = strength * oscStrength;
+            if(gizmoOSC.mode.Equals("POSE")) {
+                realStrength = strength * poseStrength;
+            }
+            if(gizmoOSC.mode.Equals("FACE")) {
+                //Debug.Log(emotionStrength);
+                realStrength = strength * emotionStrength;
+            }
         }
+
     }
 
        void OnDrawGizmos() {

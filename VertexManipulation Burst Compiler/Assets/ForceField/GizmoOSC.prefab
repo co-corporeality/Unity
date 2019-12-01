@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dbc4a11ab3d5d843944db2ff9793cd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: POSE
   osc: {fileID: 0}
   rawData: []
   rawPositions: []
-  dummy: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
