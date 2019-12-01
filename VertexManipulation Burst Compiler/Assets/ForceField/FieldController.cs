@@ -7,8 +7,8 @@ using Unity.Collections;
 
 public class FieldController : MonoBehaviour
 {
+	SimplexNoise noise;
     FieldGizmo[] gizmos;    // Gizmos that define the forcefield
-
 	newData[] objects;   // subobjects to be manipulated
 	MeshData[] original;    // meshes before maniulation
 	MeshJob[] meshJob;
@@ -25,22 +25,27 @@ public class FieldController : MonoBehaviour
 		public Mesh original;
 		public NativeArray<Vector3> vertices;
 		public NativeArray<Vector3> normals;
+		public NativeArray<float> noise;
 		public Vector3[] modifiedVertices;
 		
 	}
 
 	public struct MeshJob : IJobParallelFor {
-		[ReadOnly]
-		public NativeArray<Vector3> origVert;
 		public NativeArray<Vector3> vert;
 		[ReadOnly]
+		public NativeArray<Vector3> origVert;		
+		[ReadOnly]
 		public NativeArray<Vector3> norm;
+		[ReadOnly]
+		public NativeArray<float> noise;
 		[ReadOnly]
 		public NativeArray<Vector3> gizmoCenter;
 		[ReadOnly]
 		public NativeArray<float> gizmoRadius;
 		[ReadOnly]
 		public NativeArray<float> gizmoStrength;
+		[ReadOnly]
+		public NativeArray<float> gizmoNoise;
 
 		public void Execute(int i) {
 			float forceSum = 0.0f;    // acculmulate all forces
@@ -48,8 +53,10 @@ public class FieldController : MonoBehaviour
 				float d = Vector3.Distance(gizmoCenter[j], origVert[i]);
 				if (d < gizmoRadius[j]) {
 					float m = map(d, gizmoRadius[j], 1f, 0f, 1f);
-					//m = QuadeaseInOut(m, 0, 1, 1);	// falloff curve, a bit buggy
-					forceSum += m * gizmoStrength[j];
+					float a = gizmoStrength[j];
+					float b = noise[i] * a;
+					forceSum += m * Mathf.Lerp(a,b, gizmoNoise[j]);
+					//forceSum += m * gizmoStrength[j] * (gizmoNoise[j] * noise[i]);
 				}
 			}			
 			vert[i] = origVert[i] + norm[i] * forceSum;
@@ -70,19 +77,23 @@ public class FieldController : MonoBehaviour
 		Vector3[] gizmoCenterTemp = new Vector3[gizmos.Length];
 		float[] gizmoRadiusTemp = new float[gizmos.Length];
 		float[] gizmoStengthTemp = new float[gizmos.Length];
+		float[] gizmoNoiseTemp = new float[gizmos.Length];
 		for(int i = 0; i < gizmos.Length; i++) {
 			gizmoCenterTemp[i] = gizmos[i].transform.position;
 			gizmoRadiusTemp[i] = gizmos[i].radius;
 			gizmoStengthTemp[i] = gizmos[i].realStrength;
+			gizmoNoiseTemp[i] = gizmos[i].noise;
 		}
 		for (int i = 0; i < objects.Length; i++) {
 			meshJob[i] = new MeshJob() {
 				origVert = objects[i].nativeVert,
 				vert = original[i].vertices,
+				noise = original[i].noise,
 				norm = original[i].normals,
 				gizmoCenter = new NativeArray<Vector3>(gizmoCenterTemp, Allocator.TempJob),
 				gizmoRadius = new NativeArray<float>(gizmoRadiusTemp,Allocator.TempJob),
-				gizmoStrength = new NativeArray<float>(gizmoStengthTemp, Allocator.TempJob)
+				gizmoStrength = new NativeArray<float>(gizmoStengthTemp, Allocator.TempJob),
+				gizmoNoise = new NativeArray<float>(gizmoNoiseTemp, Allocator.TempJob)
 
 			};
 			meshJobHandle[i] = meshJob[i].Schedule(original[i].vertices.Length, 64);
@@ -96,6 +107,7 @@ public class FieldController : MonoBehaviour
 			meshJob[i].gizmoCenter.Dispose();
 			meshJob[i].gizmoRadius.Dispose();
 			meshJob[i].gizmoStrength.Dispose();
+			meshJob[i].gizmoNoise.Dispose();
 
 			Mesh mesh = objects[i].obj.GetComponent<MeshFilter>().sharedMesh;
 			mesh.vertices = objects[i].vertices;
@@ -108,6 +120,7 @@ public class FieldController : MonoBehaviour
 		for (int i = 0; i < objects.Length; i++) {
 			original[i].vertices.Dispose();
 			original[i].normals.Dispose();
+			original[i].noise.Dispose();
 			meshJob[i].origVert.Dispose();
 			
 		}
@@ -130,13 +143,19 @@ public class FieldController : MonoBehaviour
 
 	MeshData[] GetOriginalMeshes(newData[] objs) // Save original MeshData before manipualtion
     {
+		
 		MeshData[] result = new MeshData[objs.Length];
         for (int i = 0; i < objs.Length; i++)
-        {
+        {			
 			result[i].obj = objs[i].obj.transform;
 			result[i].original = Instantiate(objs[i].obj.GetComponent<MeshFilter>().mesh);
 			result[i].vertices = new NativeArray<Vector3>(result[i].original.vertices, Allocator.Persistent);
 			result[i].normals = new NativeArray<Vector3>(result[i].original.normals, Allocator.Persistent);
+			float[] noise = new float[result[i].original.vertices.Length];
+			for(int j = 0; j < noise.Length; j++) {
+				noise[j] = Random.Range(0.2f, 1.0f);
+			}
+			result[i].noise = new NativeArray<float>(noise, Allocator.Persistent);
 		}
         return result;
     }

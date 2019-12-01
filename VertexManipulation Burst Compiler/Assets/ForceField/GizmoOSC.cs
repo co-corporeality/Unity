@@ -8,9 +8,9 @@ public class GizmoOSC : MonoBehaviour
     [HideInInspector]
     public float[] rawData;
     [HideInInspector]
-    public Vector3[] rawPositions;
-    public Mesh dummy; 
+    public Vector3[] rawPositions;    
     FieldGizmo[] gizmos; 
+    //public Mesh dummy; 
     
 
     void Start()
@@ -23,15 +23,15 @@ public class GizmoOSC : MonoBehaviour
     void Update()
     {        
         // dummy Preview
-        for(int i = 0; i < rawPositions.Length; i++) {
-            Graphics.DrawMesh(dummy, rawPositions[i] * 20.0f, Quaternion.identity, null, 0);            
-        }
+        //for(int i = 0; i < rawPositions.Length; i++) {
+        //    Graphics.DrawMesh(dummy, rawPositions[i] * 20.0f, Quaternion.identity, null, 0);            
+        //}        
         for(int i = 0; i < gizmos.Length; i++) {
             int id = gizmos[i].id;
+            int root = gizmos[i].rootId;
             if(id > -1 && id < 18 && rawPositions[id].x > 0 && rawPositions[id].y > 0) {
-                float dist = Vector3.Distance(rawPositions[0], rawPositions[id]);
-                gizmos[i].oscStrength = dist;
-                
+                float dist = Vector3.Distance(rawPositions[root], rawPositions[id]);
+                gizmos[i].oscStrength = dist;                
             }
         }
     }
