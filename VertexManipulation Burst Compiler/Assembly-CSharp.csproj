@@ -53,8 +53,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Extra\Scripts\Instantiator.cs" />
+     <Compile Include="Assets\Extra\Scripts\ReceiveAll.cs" />
+     <Compile Include="Assets\Extra\Scripts\ReceiveFFT.cs" />
+     <Compile Include="Assets\Extra\Scripts\ReceiveLevel.cs" />
+     <Compile Include="Assets\Extra\Scripts\RotateAround.cs" />
+     <Compile Include="Assets\Extra\Scripts\SendOSC.cs" />
      <Compile Include="Assets\ForceField\FieldController.cs" />
      <Compile Include="Assets\ForceField\FieldGizmo.cs" />
+     <Compile Include="Assets\ForceField\GizmoOSC.cs" />
+     <Compile Include="Assets\OSC\OSC.cs" />
      <Compile Include="Assets\SimplexNoise.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
@@ -62,11 +70,17 @@
  <Reference Include="Unity.Burst">
  <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.VSCode.Editor">
+ <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.Burst.Editor">
  <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.Burst.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UI">
+ <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline">
  <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
@@ -74,29 +88,23 @@
  <Reference Include="Unity.CollabProxy.Editor">
  <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
  </Reference>
- <Reference Include="Unity.Mathematics">
- <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Mathematics.Editor">
- <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.TextMeshPro">
- <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
- </Reference>
- <Reference Include="Unity.VSCode.Editor">
- <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.UI">
- <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
- </Reference>
  <Reference Include="Unity.Rider.Editor">
  <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Mathematics">
+ <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Sprite.Editor">
  <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Tilemap.Editor">
  <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Mathematics.Editor">
+ <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.TextMeshPro">
+ <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>D:/GitHub/Unity/VertexManipulation Burst Compiler/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
