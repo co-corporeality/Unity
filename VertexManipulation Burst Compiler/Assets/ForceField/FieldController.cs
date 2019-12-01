@@ -48,6 +48,7 @@ public class FieldController : MonoBehaviour
 				float d = Vector3.Distance(gizmoCenter[j], origVert[i]);
 				if (d < gizmoRadius[j]) {
 					float m = map(d, gizmoRadius[j], 1f, 0f, 1f);
+					//m = QuadeaseInOut(m, 0, 1, 1);	// falloff curve, a bit buggy
 					forceSum += m * gizmoStrength[j];
 				}
 			}			
@@ -66,7 +67,6 @@ public class FieldController : MonoBehaviour
 
     void Update()
     {
-		//DeformMeshes();
 		Vector3[] gizmoCenterTemp = new Vector3[gizmos.Length];
 		float[] gizmoRadiusTemp = new float[gizmos.Length];
 		float[] gizmoStengthTemp = new float[gizmos.Length];
@@ -100,7 +100,6 @@ public class FieldController : MonoBehaviour
 			Mesh mesh = objects[i].obj.GetComponent<MeshFilter>().sharedMesh;
 			mesh.vertices = objects[i].vertices;
 			mesh.RecalculateNormals();
-
 		}
 
 	}
@@ -158,4 +157,9 @@ public class FieldController : MonoBehaviour
     {
         return b1 + (s-a1)*(b2-b1)/(a2-a1);
     }
+
+	public static float QuadeaseInOut(float t, float b, float c, float d) {
+		if ((t /= d / 2) < 1) return c / 2 * t * t + b;
+		return -c / 2 * ((--t) * (t - 2) - 1) + b;
+	}
 }
