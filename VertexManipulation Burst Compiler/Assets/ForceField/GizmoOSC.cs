@@ -23,9 +23,9 @@ public class GizmoOSC : MonoBehaviour
     void Update()
     {        
         // dummy Preview
-        //for(int i = 0; i < rawPositions.Length; i++) {
-        //    Graphics.DrawMesh(dummy, rawPositions[i] * 20.0f, Quaternion.identity, null, 0);            
-        //}
+        for(int i = 0; i < rawPositions.Length; i++) {
+            Graphics.DrawMesh(dummy, rawPositions[i] * 20.0f, Quaternion.identity, null, 0);            
+        }
         for(int i = 0; i < gizmos.Length; i++) {
             int id = gizmos[i].id;
             if(id > -1 && id < 18 && rawPositions[id].x > 0 && rawPositions[id].y > 0) {
