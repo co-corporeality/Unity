@@ -73,7 +73,7 @@ public class FieldController : MonoBehaviour
 		for(int i = 0; i < gizmos.Length; i++) {
 			gizmoCenterTemp[i] = gizmos[i].transform.position;
 			gizmoRadiusTemp[i] = gizmos[i].radius;
-			gizmoStengthTemp[i] = gizmos[i].strength;
+			gizmoStengthTemp[i] = gizmos[i].realStrength;
 		}
 		for (int i = 0; i < objects.Length; i++) {
 			meshJob[i] = new MeshJob() {

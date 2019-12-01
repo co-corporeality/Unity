@@ -6,6 +6,10 @@ public class FieldGizmo : MonoBehaviour
 {
     public float radius = 1.0f;
     public float strength = 1.0f;
+    [HideInInspector]
+    public float realStrength;  // user multiplier * osc data
+    [HideInInspector]
+    public  float oscStrength;
     public int id = -1;
     
     void Start() {
@@ -13,7 +17,7 @@ public class FieldGizmo : MonoBehaviour
     }
 
     void Update() {
-        
+        realStrength = strength * oscStrength;
     }
 
        void OnDrawGizmos() {
